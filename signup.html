@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Form</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+
+        form {
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 50%;
+            max-width: 500px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="phone"],
+        input[type="email"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        input[type="radio"],
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        #gender label {
+            margin-right: 20px;
+        }
+
+        #country {
+            text-align: center;
+        }
+
+        #submit {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ffc400f9;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #submit:hover {
+            background-color: #ffc400ce;
+        }
+
+        .terms-condition {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .terms-condition a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .terms-condition a:hover {
+            text-decoration: underline;
+        }
+
+        h1 {
+    font-size: 2rem;
+    text-align: center; 
+    padding: 20px; 
+    margin: 0 auto; 
+    max-width: 95%; 
+    background-color: #ffc400;
+    color: #fff;
+    border-radius: 10px 10px 0 0;
+    margin-bottom: 20px;
+}
+    </style>
+</head>
+<body>
+    <form action="/aftersignup" method="post">
+        <div>
+            <h1>Sign Up</h1>
+            <div>
+                <label for="first">First Name:</label>
+                <input type="text" name="fn" id="first" placeholder="Enter first name" required>
+            </div>
+            <div>
+                <label for="last">Last Name:</label>
+                <input type="text" name="ln" id="last" placeholder="Enter last name" required>
+            </div>
+            <div>
+                <label for="mobile">Mobile no:</label>
+                <input type="phone" name="mobile" id="mobile" placeholder="Enter mobile no" required>
+            </div>
+            <div id="gender">
+                <label>Gender:</label>
+                <input type="radio" name="gender" value="male" id="male" required>
+                <label for="male">Male</label>
+                <input type="radio" name="gender" value="female" id="female" required>
+                <label for="female">Female</label>
+                <input type="radio" name="gender" value="other" id="other" required>
+                <label for="other">Other</label>
+            </div>
+            <div id="country">
+                <label for="country">Country:</label>
+                <select name="country" id="select" required>
+                    <option value="none">Select</option>
+                    <option value="france">France</option>
+                    <option value="germany">Germany</option>
+                    <option value="italy">Italy</option>
+                    <option value="japan">Japan</option>
+                    <option value="russia">Russia</option>
+                    <option value="kingdom">United Kingdom</option>
+                    <option value="us">United States</option>
+                    <option value="india">India</option>
+                </select>
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="mail" placeholder="xyz@gmail.com" required>
+            </div>
+            <div>
+                <label for="pass">Password:</label>
+                <input type="password" name="password" placeholder="Enter password" required>
+            </div>
+            <div class="terms-condition">
+                <label for="term&condition">
+                    <input type="checkbox" name="t&c" value="agreed" required>
+                    I agree to all the <a >Terms & Conditions</a>
+                </label>
+            </div>
+            <button type="submit" id="submit">Submit</button>
+        </div>
+    </form>
+</body>
+</html>

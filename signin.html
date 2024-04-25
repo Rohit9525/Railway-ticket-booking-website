@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+
+        #container {
+            width: 400px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .button-group {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        #login {
+            background-color: #ffc400ce;
+        }
+
+        #login:hover {
+            background-color: #ffc400;
+        }
+
+        #cancel {
+            background-color: #6c757d;
+        }
+
+        .links {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .links a {
+            margin-right: 10px;
+            color: #ffc400ce;
+            text-decoration: none;
+        }
+
+        .error-message {
+            margin-top: 15px;
+            color: #f00;
+            text-align: center;
+        }
+        h1 {
+    font-size: 2rem;
+    text-align: center; 
+    padding: 20px; 
+    margin: 0 auto; 
+    max-width: 95%; 
+    background-color: #ffc400;
+    color: #fff;
+    border-radius: 10px 10px 0 0;
+    margin-bottom: 20px;
+}
+
+    </style>
+</head>
+<body>
+    <form id="form1" action="/aftersignin" method="post">
+        <div id="container">
+            <h1>Sign In</h1>
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="uname" placeholder="Enter your username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" name="pass" id="password" placeholder="Enter your password" required>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" name="check" id="check" checked="checked">
+                <label for="check">Remember me</label>
+            </div>
+            <div class="button-group">
+                <button type="submit" id="login">Login</button>
+                <button type="button" id="cancel" onclick="location.href='index.html'">Cancel</button>
+            </div>
+            <div class="links">
+                <a href="#" class="forgot-password">Forgot password?</a>
+                <a href="http://127.0.0.1:3000/signup" class="new-user">New User?</a>
+            </div>
+           
+        </div>
+    </form>
+</body>
+</html>

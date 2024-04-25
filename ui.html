@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Railway Ticket Booking</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    
+    h1 {
+    font-size: 2rem;
+    text-align: center; 
+    padding: 20px; 
+    margin: 0 auto; 
+    max-width: 90%; 
+    background-color: #ffc400;
+    color: #fff;
+    border-radius: 10px 10px 0 0;
+}
+   
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      box-shadow: 2px 2px 10px 2px #ccc;
+      border-radius: 10px 10px 0 0;
+    }
+
+    .seat-map {
+      display: flex;
+      flex-direction: row; /* Align maps horizontally */
+      margin-bottom: 20px;
+      margin: auto;
+      margin-left: 25%;
+    }
+
+    .row {
+      display: flex;
+      flex-direction: column; /* Align seats vertically */
+      margin-right: 10px;
+    }
+
+    .seat {
+      width: 40px;
+      height: 40px;
+      margin: 5px;
+      border: 1px solid #ccc;
+      background-color: #f0f0f0;
+      cursor: pointer;
+    }
+
+    .seats {
+      width: 40px;
+      height: 40px;
+      margin: 5px;
+      border: 1px solid #ccc;
+      background-color: #f0f0f0;
+      cursor: pointer;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .seat.selected {
+      background-color: #ffc400; /* green color for selected seats */
+    }
+
+    .row .seat:last-child {
+      margin-bottom: 10px;
+    }
+
+    .heading {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .heading-row {
+      display: flex;
+      justify-content: space-between; /* Align seats horizontally */
+    }
+
+    #user-data-form {
+      text-align: center;
+      margin-top: 20px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+
+    #passenger-form input {
+      margin-bottom: 10px;
+      padding: 8px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    #passenger-form select {
+      margin-bottom: 10px;
+      padding: 8px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    #confirm-booking-btn {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #ffc400;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #confirm-booking-btn:hover {
+      background-color: #ffc400cd;
+    }
+
+    #payment-form {
+      text-align: center;
+      margin-top: 20px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+
+    #payment-form input {
+      margin-bottom: 10px;
+      padding: 8px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    #qr-code {
+      margin: 20px auto;
+      max-width: 200px;
+      display: block;
+    }
+
+    #pay-now-btn {
+      padding: 10px 20px;
+      background-color: #ffc400;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #pay-now-btn:hover {
+      background-color: #ffc400c7;
+    }
+
+    #passenger-count {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Book Ticket - Railyatra</h1>
+    <div class="seat-map">
+      <div id="sleeper-seat-map" class="row">
+        <h2 class="heading">Sleeper Class</h2>
+        <div class="heading-row">
+          <div class="seats">U</div>
+          <div class="seats">M</div>
+          <div class="seats">L</div>
+          <div class="seats">W</div>
+        </div>
+        <!-- Sleeper class seats will be dynamically generated here -->
+      </div>
+      <div id="ac-seat-map" class="row">
+        <h2 class="heading">1st AC</h2>
+        <div class="heading-row">
+          <div class="seats">U</div>
+          <div class="seats">M</div>
+          <div class="seats">L</div>
+          <div class="seats">W</div>
+        </div>
+        <!-- 1st AC class seats will be dynamically generated here -->
+      </div>
+    </div>
+    <form id="user-data-form" style="display: none;">
+      <h2>Enter Passenger Details</h2>
+      <div id="passenger-form">
+        <!-- Passenger details form will be dynamically generated here -->
+      </div>
+      <div id="passenger-count"></div>
+      <button id="confirm-booking-btn" type="button">Confirm Booking</button>
+      <div id="total-price"></div>
+    </form>
+    <div id="payment-form" style="display: none;">
+      <h2>Payment Details</h2>
+      <label for="upi-id">Enter UPI ID:</label><br>
+      <input type="text" id="upi-id" name="upi-id"><br>
+      <p>Or, scan this QR for payment</p>
+      <img id="qr-code" src="https://github.com/Rohit9525/Railway-ticket-booking-website/blob/main/QR.jpeg?raw=true" alt="QR Code"><br>
+      <button id="pay-now-btn">Pay Now</button>
+    </div>
+  </div>
+
+  <script>
+    const sleeperSeatMap = document.getElementById('sleeper-seat-map');
+    const acSeatMap = document.getElementById('ac-seat-map');
+    const userDataForm = document.getElementById('user-data-form');
+    const confirmBookingBtn = document.getElementById('confirm-booking-btn');
+    const paymentForm = document.getElementById('payment-form');
+    const totalPriceDisplay = document.getElementById('total-price');
+    const passengerCountDisplay = document.getElementById('passenger-count');
+
+    let selectedSeats = [];
+
+    // Function to toggle seat selection
+    function toggleSeatSelection(seat) {
+      seat.classList.toggle('selected');
+      const seatNumber = parseInt(seat.textContent);
+      if (seat.classList.contains('selected')) {
+        selectedSeats.push(seatNumber);
+      } else {
+        selectedSeats = selectedSeats.filter(seat => seat !== seatNumber);
+      }
+      calculateTotalPrice(); // Update total price when seats are selected/deselected
+      renderPassengerForms(); // Render passenger details form
+      updatePassengerCount(); // Update passenger count
+    }
+
+    // Function to calculate total price
+    function calculateTotalPrice() {
+      // Here you can implement your logic to calculate the total price based on selected seats and seat class
+      const pricePerSleeperSeat = 500;
+      const pricePerACSeat = 1500;
+      let totalPrice = 0;
+      
+      selectedSeats.forEach(seat => {
+        if (seat <= 72) { // Sleeper class seats
+          totalPrice += pricePerSleeperSeat;
+        } else { // 1st AC class seats
+          totalPrice += pricePerACSeat;
+        }
+      });
+
+      totalPriceDisplay.textContent = `Total Price: $${totalPrice}`;
+    }
+
+    // Function to update passenger count
+    function updatePassengerCount() {
+      const passengerCount = selectedSeats.length;
+      passengerCountDisplay.textContent = `Passengers: ${passengerCount}`;
+    }
+
+    // Event listener for Confirm Booking button
+    confirmBookingBtn.addEventListener('click', () => {
+      userDataForm.style.display = 'none'; // Hide user data form
+      paymentForm.style.display = 'block'; // Show payment form
+    });
+
+    // Add event listeners for seat selection
+    function addSeatEventListeners(seatMap) {
+      const seats = seatMap.querySelectorAll('.seat');
+      seats.forEach(seat => {
+        seat.addEventListener('click', () => {
+          toggleSeatSelection(seat);
+          userDataForm.style.display = 'block'; // Show user data form after seat selection
+        });
+      });
+    }
+
+    // Function to render passenger details form
+    function renderPassengerForms() {
+      const passengerForm = document.getElementById('passenger-form');
+      passengerForm.innerHTML = ''; // Clear previous forms
+      for (let i = 0; i < selectedSeats.length; i++) {
+        const form = document.createElement('div');
+        form.innerHTML = `
+          <center><h2>Passenger ${i+1}</h2></center>
+          <label for="name${i}">Name:</label><br>
+          <input type="text" id="name${i}" name="name${i}" required><br>
+          <label for="age${i}">Age:</label><br>
+          <input type="number" id="age${i}" name="age${i}" required><br>
+          <label for="gender${i}">Gender:</label><br>
+          <select id="gender${i}" name="gender${i}" required>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select><br><br>
+        `;
+        passengerForm.appendChild(form);
+      }
+    }
+
+    // Function to generate QR code (placeholder)
+    function generateQRCode() {
+      // Here you can implement the logic to generate the actual QR code
+      // For demonstration purposes, just updating the image source with a placeholder
+      const qrCodeImg = document.getElementById('qr-code');
+      qrCodeImg.src = 'https://github.com/Rohit9525/Railway-ticket-booking-website/blob/main/QR.jpeg?raw=true';
+    }
+
+    // Generate sleeper class seats
+    function generateSleeperSeats() {
+      for (let col = 1; col <= 18; col++) {
+        const colDiv = document.createElement('div');
+        colDiv.classList.add('column');
+        for (let seatNumber = 1; seatNumber <= 4; seatNumber++) {
+          const seat = document.createElement('button');
+          seat.classList.add('seat');
+          seat.textContent = ((seatNumber - 1) * 18) + col;
+          colDiv.appendChild(seat);
+        }
+        sleeperSeatMap.appendChild(colDiv);
+      }
+    }
+
+    // Generate 1st AC class seats
+    function generateACSeats() {
+      for (let col = 1; col <= 18; col++) {
+        const colDiv = document.createElement('div');
+        colDiv.classList.add('column');
+        for (let seatNumber = 73; seatNumber <= 76; seatNumber++) {
+          const seat = document.createElement('button');
+          seat.classList.add('seat');
+          seat.textContent = ((seatNumber - 72 - 1) * 18) + col;
+          colDiv.appendChild(seat);
+        }
+        acSeatMap.appendChild(colDiv);
+      }
+    }
+
+    // Generate seats for both classes
+    generateSleeperSeats();
+    generateACSeats();
+
+    // Add event listeners for both classes
+    addSeatEventListeners(sleeperSeatMap);
+    addSeatEventListeners(acSeatMap);
+
+    // Generate QR code when payment form is displayed
+    generateQRCode();
+  </script>
+</body>
+</html>
